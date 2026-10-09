@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jetbrains_plugins/common/navigation/app_router.dart';
 import 'package:jetbrains_plugins/common/widgets/app_scaffold.dart';
 import 'package:jetbrains_plugins/common/widgets/content_width.dart';
+import 'package:jetbrains_plugins/common/widgets/message_view.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/bloc/list/plugin_list_cubit.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/bloc/list/plugin_list_state.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/view/widgets/plugin_card.dart';
@@ -28,41 +31,26 @@ class PluginListScreen extends StatelessWidget {
             Expanded(
               child: BlocBuilder<PluginListCubit, PluginListState>(
                 builder: (context, state) => state.isNothingFound
-                    ? _NothingFound(query: state.query.trim())
+                    ? MessageView(
+                        text: AppLocalizations.of(context)
+                            .searchEmpty(state.query.trim()),
+                      )
                     : ListView.separated(
                         padding: const EdgeInsets.all(16),
                         itemCount: state.items.length,
                         separatorBuilder: (_, _) => const SizedBox(height: 12),
-                        itemBuilder: (context, index) =>
-                            PluginCard(plugin: state.items[index]),
+                        itemBuilder: (context, index) {
+                          final plugin = state.items[index];
+                          return PluginCard(
+                            plugin: plugin,
+                            onTap: () =>
+                                context.push(AppRoutes.plugin(plugin.id)),
+                          );
+                        },
                       ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _NothingFound extends StatelessWidget {
-  const _NothingFound({required this.query});
-
-  final String query;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Text(
-          AppLocalizations.of(context).searchEmpty(query),
-          textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
         ),
       ),
     );
