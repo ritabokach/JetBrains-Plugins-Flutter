@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jetbrains_plugins/common/navigation/app_router.dart';
 import 'package:jetbrains_plugins/common/widgets/app_scaffold.dart';
 import 'package:jetbrains_plugins/common/widgets/content_width.dart';
 import 'package:jetbrains_plugins/common/widgets/message_view.dart';
@@ -9,6 +11,7 @@ import 'package:jetbrains_plugins/features/plugin/presentation/bloc/detail/plugi
 import 'package:jetbrains_plugins/features/plugin/presentation/bloc/detail/plugin_detail_event.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/bloc/detail/plugin_detail_state.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/utils/plugin_format.dart';
+import 'package:jetbrains_plugins/features/plugin/presentation/view/widgets/card_surface.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/view/widgets/fact_row.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/view/widgets/plugin_avatar.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/view/widgets/pricing_chip.dart';
@@ -54,9 +57,9 @@ class _DetailContent extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final links = plugin.links(l10n);
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: ContentWidth(
+    return ContentWidth(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 20,
@@ -103,6 +106,10 @@ class _DetailContent extends StatelessWidget {
                 title: l10n.detailTags,
                 child: TagRow(tags: plugin.tags),
               ),
+            Section(
+              title: l10n.detailVendor,
+              child: _VendorLink(plugin: plugin),
+            ),
             if (links.isNotEmpty)
               Section(
                 title: l10n.detailLinks,
@@ -116,6 +123,39 @@ class _DetailContent extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _VendorLink extends StatelessWidget {
+  const _VendorLink({required this.plugin});
+
+  final PluginModel plugin;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return CardSurface(
+      onTap: () => context.push(AppRoutes.vendor(plugin.vendor.id)),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(plugin.vendor.name, style: theme.textTheme.titleSmall),
+                Text(
+                  AppLocalizations.of(context).detailOpenVendor,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right, color: theme.colorScheme.onSurfaceVariant),
+        ],
       ),
     );
   }

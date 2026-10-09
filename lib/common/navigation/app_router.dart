@@ -4,12 +4,15 @@ import 'package:jetbrains_plugins/common/widgets/app_scaffold.dart';
 import 'package:jetbrains_plugins/common/widgets/message_view.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/view/plugin_detail_screen.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/view/plugin_list_screen.dart';
+import 'package:jetbrains_plugins/features/plugin/presentation/view/vendor_screen.dart';
 import 'package:jetbrains_plugins/l10n/app_localizations.dart';
 
 abstract final class AppRoutes {
   static const String list = '/';
 
   static String plugin(int id) => '/plugin/$id';
+
+  static String vendor(int id) => '/vendor/$id';
 }
 
 abstract final class AppRouter {
@@ -33,6 +36,11 @@ abstract final class AppRouter {
                 state,
                 _withId(state, (id) => PluginDetailScreen(id: id)),
               ),
+            ),
+            GoRoute(
+              path: 'vendor/:id',
+              pageBuilder: (context, state) =>
+                  _page(state, _withId(state, (id) => VendorScreen(id: id))),
             ),
           ],
         ),
