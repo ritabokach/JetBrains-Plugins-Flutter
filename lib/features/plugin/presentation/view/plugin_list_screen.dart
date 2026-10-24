@@ -17,6 +17,7 @@ class PluginListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PluginListCubit>();
+    final l10n = AppLocalizations.of(context);
     return AppScaffold(
       body: ContentWidth(
         child: Column(
@@ -30,24 +31,35 @@ class PluginListScreen extends StatelessWidget {
             ),
             Expanded(
               child: BlocBuilder<PluginListCubit, PluginListState>(
-                builder: (context, state) => state.isNothingFound
-                    ? MessageView(
-                        text: AppLocalizations.of(context)
-                            .searchEmpty(state.query.trim()),
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: state.items.length,
-                        separatorBuilder: (_, _) => const SizedBox(height: 12),
-                        itemBuilder: (context, index) {
-                          final plugin = state.items[index];
-                          return PluginCard(
-                            plugin: plugin,
-                            onTap: () =>
-                                context.push(AppRoutes.plugin(plugin.id)),
-                          );
-                        },
-                      ),
+                builder: (context, state) => switch (state) {
+                  PluginListLoading() => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  PluginListFailure() => MessageView(
+                    text: l10n.listError,
+                    action: FilledButton.tonal(
+                      onPressed: cubit.load,
+                      child: Text(l10n.listRetry),
+                    ),
+                  ),
+                  PluginListLoaded(isCatalogEmpty: true) => MessageView(
+                    text: l10n.listEmpty,
+                  ),
+                  PluginListLoaded(isNothingFound: true, :final query) =>
+                    MessageView(text: l10n.searchEmpty(query.trim())),
+                  PluginListLoaded(:final items) => ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: items.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final plugin = items[index];
+                      return PluginCard(
+                        plugin: plugin,
+                        onTap: () => context.push(AppRoutes.plugin(plugin.id)),
+                      );
+                    },
+                  ),
+                },
               ),
             ),
           ],
