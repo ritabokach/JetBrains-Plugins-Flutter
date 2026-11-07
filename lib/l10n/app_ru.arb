@@ -1,0 +1,93 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Плагины JetBrains",
+  "@appTitle": {
+    "description": "Заголовок в шапке, во вкладке браузера и в заголовке окна"
+  },
+  "actionToggleTheme": "Переключить тему",
+  "cardDownloads": "{downloads} загрузок",
+  "@cardDownloads": {
+    "placeholders": {
+      "downloads": {
+        "type": "String"
+      }
+    }
+  },
+  "cardRating": "★ {rating}",
+  "@cardRating": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "cardNoRating": "без оценок",
+  "searchHint": "Поиск по названию",
+  "searchClear": "Очистить поиск",
+  "searchEmpty": "По запросу «{query}» ничего не нашлось",
+  "@searchEmpty": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "listEmpty": "В каталоге пока нет плагинов",
+  "@listEmpty": {
+    "description": "Каталог загрузился, но в нём нет ни одной записи"
+  },
+  "listError": "Не удалось загрузить плагины",
+  "@listError": {
+    "description": "Репозиторий вернул ошибку при загрузке или поиске"
+  },
+  "listRetry": "Повторить",
+  "pricingFree": "Бесплатно",
+  "pricingFreemium": "Условно бесплатно",
+  "pricingPaid": "Платно",
+  "detailXmlId": "Идентификатор",
+  "detailDownloads": "Загрузок",
+  "detailRating": "Оценка",
+  "detailRatingNone": "Оценок пока нет",
+  "detailTags": "Теги",
+  "detailVendor": "Вендор",
+  "detailOpenVendor": "Открыть страницу вендора",
+  "detailLinks": "Ссылки",
+  "linkDoc": "Документация",
+  "linkSource": "Исходный код",
+  "linkBugtracker": "Баг-трекер",
+  "linkForum": "Форум",
+  "vendorVerified": "Проверенный вендор",
+  "vendorUnverified": "Вендор не проверен",
+  "vendorCountry": "Страна",
+  "vendorSite": "Сайт",
+  "vendorPlugins": "Плагины вендора: {count}",
+  "@vendorPlugins": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pluginNotFound": "Плагина с номером {id} в каталоге нет",
+  "@pluginNotFound": {
+    "description": "Номер плагина из адресной строки не нашёлся",
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "vendorNotFound": "Вендора с номером {id} в каталоге нет",
+  "@vendorNotFound": {
+    "description": "Номер вендора из адресной строки не нашёлся",
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "pageNotFound": "Такой страницы нет",
+  "@pageNotFound": {
+    "description": "Адрес, которого нет среди маршрутов"
+  }
+}
