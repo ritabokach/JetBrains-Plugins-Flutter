@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jetbrains_plugins/common/navigation/app_router.dart';
 import 'package:jetbrains_plugins/common/widgets/app_scaffold.dart';
 import 'package:jetbrains_plugins/common/widgets/content_width.dart';
+import 'package:jetbrains_plugins/common/widgets/load_error_view.dart';
 import 'package:jetbrains_plugins/common/widgets/message_view.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/i_plugin_repository.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/plugin_model.dart';
@@ -17,21 +18,27 @@ import 'package:jetbrains_plugins/features/plugin/presentation/view/widgets/plug
 import 'package:jetbrains_plugins/l10n/app_localizations.dart';
 
 class VendorScreen extends StatelessWidget {
-  const VendorScreen({super.key, required this.id});
+  const VendorScreen({super.key, required this.slug});
 
-  final int id;
+  final String slug;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          VendorBloc(context.read<IPluginRepository>())..add(VendorOpened(id)),
+          VendorBloc(context.read<IPluginRepository>())
+            ..add(VendorOpened(slug)),
       child: AppScaffold(
         body: BlocBuilder<VendorBloc, VendorState>(
           builder: (context, state) => switch (state) {
             VendorLoading() => const Center(child: CircularProgressIndicator()),
-            VendorNotFound(:final id) => MessageView(
-              text: AppLocalizations.of(context).vendorNotFound(id),
+            VendorNotFound(:final slug) => MessageView(
+              text: AppLocalizations.of(context).vendorNotFound(slug),
+            ),
+            VendorFailure(:final slug, :final error) => LoadErrorView(
+              error: error,
+              onRetry: () =>
+                  context.read<VendorBloc>().add(VendorRetried(slug)),
             ),
             VendorLoaded(:final vendor, :final plugins) => _VendorContent(
               vendor: vendor,

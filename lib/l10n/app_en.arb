@@ -9,8 +9,11 @@
   "searchClear": "Clear search",
   "searchEmpty": "Nothing matches “{query}”",
   "listEmpty": "The catalog has no plugins yet",
-  "listError": "Could not load plugins",
-  "listRetry": "Retry",
+  "actionRetry": "Retry",
+  "errorNoConnection": "No connection to the server. Check your internet",
+  "errorTimeout": "The server is taking too long to respond",
+  "errorServer": "Server error ({code})",
+  "errorBadResponse": "The server sent a response the app cannot read",
   "pricingFree": "Free",
   "pricingFreemium": "Freemium",
   "pricingPaid": "Paid",
@@ -32,6 +35,6 @@
   "vendorSite": "Website",
   "vendorPlugins": "Plugins by this vendor: {count}",
   "pluginNotFound": "There is no plugin {id} in the catalog",
-  "vendorNotFound": "There is no vendor {id} in the catalog",
+  "vendorNotFound": "There is no vendor “{slug}” in the catalog",
   "pageNotFound": "Page not found"
 }

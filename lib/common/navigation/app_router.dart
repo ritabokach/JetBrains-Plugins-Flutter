@@ -12,7 +12,7 @@ abstract final class AppRoutes {
 
   static String plugin(int id) => '/plugin/$id';
 
-  static String vendor(int id) => '/vendor/$id';
+  static String vendor(String slug) => '/vendor/${Uri.encodeComponent(slug)}';
 }
 
 abstract final class AppRouter {
@@ -38,9 +38,11 @@ abstract final class AppRouter {
               ),
             ),
             GoRoute(
-              path: 'vendor/:id',
-              pageBuilder: (context, state) =>
-                  _page(state, _withId(state, (id) => VendorScreen(id: id))),
+              path: 'vendor/:slug',
+              pageBuilder: (context, state) => _page(
+                state,
+                VendorScreen(slug: state.pathParameters['slug'] ?? ''),
+              ),
             ),
           ],
         ),

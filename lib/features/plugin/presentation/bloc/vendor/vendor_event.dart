@@ -1,9 +1,13 @@
 sealed class VendorEvent {
-  const VendorEvent();
+  const VendorEvent(this.slug);
+
+  final String slug;
 }
 
 final class VendorOpened extends VendorEvent {
-  const VendorOpened(this.id);
+  const VendorOpened(super.slug);
+}
 
-  final int id;
+final class VendorRetried extends VendorEvent {
+  const VendorRetried(super.slug);
 }

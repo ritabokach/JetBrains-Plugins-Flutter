@@ -1,3 +1,4 @@
+import 'package:jetbrains_plugins/common/network/load_exception.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/plugin_model.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/vendor_model.dart';
 
@@ -17,7 +18,14 @@ final class VendorLoaded extends VendorState {
 }
 
 final class VendorNotFound extends VendorState {
-  const VendorNotFound(this.id);
+  const VendorNotFound(this.slug);
 
-  final int id;
+  final String slug;
+}
+
+final class VendorFailure extends VendorState {
+  const VendorFailure(this.slug, this.error);
+
+  final String slug;
+  final LoadException error;
 }

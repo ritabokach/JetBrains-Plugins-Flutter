@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jetbrains_plugins/common/navigation/app_router.dart';
 import 'package:jetbrains_plugins/common/widgets/app_scaffold.dart';
 import 'package:jetbrains_plugins/common/widgets/content_width.dart';
+import 'package:jetbrains_plugins/common/widgets/load_error_view.dart';
 import 'package:jetbrains_plugins/common/widgets/message_view.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/i_plugin_repository.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/plugin_model.dart';
@@ -38,6 +39,11 @@ class PluginDetailScreen extends StatelessWidget {
             ),
             PluginDetailNotFound(:final id) => MessageView(
               text: AppLocalizations.of(context).pluginNotFound(id),
+            ),
+            PluginDetailFailure(:final id, :final error) => LoadErrorView(
+              error: error,
+              onRetry: () =>
+                  context.read<PluginDetailBloc>().add(PluginDetailRetried(id)),
             ),
             PluginDetailLoaded(:final plugin) => _DetailContent(plugin: plugin),
           },
@@ -136,8 +142,9 @@ class _VendorLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final slug = plugin.vendor.slug;
     return CardSurface(
-      onTap: () => context.push(AppRoutes.vendor(plugin.vendor.id)),
+      onTap: slug == null ? null : () => context.push(AppRoutes.vendor(slug)),
       child: Row(
         children: [
           Expanded(
