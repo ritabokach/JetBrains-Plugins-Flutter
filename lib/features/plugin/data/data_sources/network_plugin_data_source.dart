@@ -21,10 +21,16 @@ final class NetworkPluginDataSource implements IPluginDataSource {
   @override
   Future<PluginPageDto> searchPlugins({
     String? search,
+    String? orderBy,
     required int offset,
     required int max,
   }) => _guard(
-    () => _api.searchPlugins(search: search, offset: offset, max: max),
+    () => _api.searchPlugins(
+      search: search,
+      orderBy: orderBy,
+      offset: offset,
+      max: max,
+    ),
   );
 
   @override

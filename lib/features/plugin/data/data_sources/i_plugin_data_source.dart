@@ -9,6 +9,7 @@ import 'package:jetbrains_plugins/features/plugin/data/dto/vendor_dto.dart';
 abstract interface class IPluginDataSource {
   Future<PluginPageDto> searchPlugins({
     String? search,
+    String? orderBy,
     required int offset,
     required int max,
   });

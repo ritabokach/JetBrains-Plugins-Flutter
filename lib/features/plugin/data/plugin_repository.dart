@@ -21,7 +21,7 @@ final class PluginRepository implements IPluginRepository {
   Future<List<PluginModel>> getPlugins({
     required int offset,
     required int limit,
-  }) => _search(null, offset: offset, limit: limit);
+  }) => _search(null, orderBy: _byDownloads, offset: offset, limit: limit);
 
   @override
   Future<List<PluginModel>> searchPlugins(
@@ -70,13 +70,19 @@ final class PluginRepository implements IPluginRepository {
     return [for (final plugin in plugins) plugin.toModel()];
   }
 
+  /// Каталог открывается самыми популярными плагинами. Результаты поиска
+  /// остаются в порядке релевантности: по `kot` первым должен быть Kotlin.
+  static const String _byDownloads = 'downloads';
+
   Future<List<PluginModel>> _search(
     String? query, {
+    String? orderBy,
     required int offset,
     required int limit,
   }) async {
     final page = await _dataSource.searchPlugins(
       search: query,
+      orderBy: orderBy,
       offset: offset,
       max: limit,
     );

@@ -15,16 +15,23 @@ final class PluginApi {
 
   final Dio _dio;
 
-  /// Без [search] сервер отдаёт весь каталог в своём порядке по умолчанию.
+  /// Без [search] сервер отдаёт весь каталог. Без [orderBy] порядок
+  /// серверный по умолчанию, `downloads` — по числу загрузок.
   /// [max] больше 24 сервер не принимает.
   Future<PluginPageDto> searchPlugins({
     String? search,
+    String? orderBy,
     required int offset,
     required int max,
   }) async {
     final json = await _getMap(
       '/searchPlugins',
-      queryParameters: {'search': ?search, 'offset': offset, 'max': max},
+      queryParameters: {
+        'search': ?search,
+        'orderBy': ?orderBy,
+        'offset': offset,
+        'max': max,
+      },
     );
     return PluginPageDto.fromJson(json);
   }
