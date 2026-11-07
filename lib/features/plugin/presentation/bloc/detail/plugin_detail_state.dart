@@ -1,3 +1,4 @@
+import 'package:jetbrains_plugins/common/network/load_exception.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/plugin_model.dart';
 
 sealed class PluginDetailState {
@@ -18,4 +19,11 @@ final class PluginDetailNotFound extends PluginDetailState {
   const PluginDetailNotFound(this.id);
 
   final int id;
+}
+
+final class PluginDetailFailure extends PluginDetailState {
+  const PluginDetailFailure(this.id, this.error);
+
+  final int id;
+  final LoadException error;
 }

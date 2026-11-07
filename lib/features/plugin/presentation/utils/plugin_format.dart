@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/plugin_model.dart';
 import 'package:jetbrains_plugins/l10n/app_localizations.dart';
 
@@ -15,8 +14,12 @@ extension PluginFormat on PluginModel {
     return '${(value * 100).round() / 100}';
   }
 
-  String get initial => name.isEmpty ? '' : name.characters.first.toUpperCase();
+  /// Первая буква или цифра: у `.env files` первый символ — точка.
+  String get initial =>
+      _letterOrDigit.firstMatch(name)?.group(0)?.toUpperCase() ?? '';
 }
+
+final RegExp _letterOrDigit = RegExp(r'[\p{L}\p{N}]', unicode: true);
 
 String _round1(double value) => '${(value * 10).round() / 10}';
 

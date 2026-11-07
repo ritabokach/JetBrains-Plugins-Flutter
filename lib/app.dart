@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetbrains_plugins/common/navigation/app_router.dart';
+import 'package:jetbrains_plugins/common/network/dio_client.dart';
 import 'package:jetbrains_plugins/common/theme/app_theme.dart';
 import 'package:jetbrains_plugins/common/theme/theme_cubit.dart';
+import 'package:jetbrains_plugins/features/plugin/data/api/plugin_api.dart';
+import 'package:jetbrains_plugins/features/plugin/data/data_sources/network_plugin_data_source.dart';
 import 'package:jetbrains_plugins/features/plugin/data/plugin_repository.dart';
 import 'package:jetbrains_plugins/features/plugin/domain/i_plugin_repository.dart';
 import 'package:jetbrains_plugins/features/plugin/presentation/bloc/list/plugin_list_cubit.dart';
@@ -16,7 +19,11 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider<IPluginRepository>(
-      create: (_) => const PluginRepository(),
+      // Цепочка собирается только здесь: Dio → API-клиент → датасорс →
+      // репозиторий. Dio один на всё приложение.
+      create: (_) => PluginRepository(
+        NetworkPluginDataSource(PluginApi(DioClient.create())),
+      ),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(

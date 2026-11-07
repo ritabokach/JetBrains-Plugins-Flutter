@@ -1,9 +1,13 @@
 sealed class PluginDetailEvent {
-  const PluginDetailEvent();
+  const PluginDetailEvent(this.id);
+
+  final int id;
 }
 
 final class PluginDetailOpened extends PluginDetailEvent {
-  const PluginDetailOpened(this.id);
+  const PluginDetailOpened(super.id);
+}
 
-  final int id;
+final class PluginDetailRetried extends PluginDetailEvent {
+  const PluginDetailRetried(super.id);
 }
