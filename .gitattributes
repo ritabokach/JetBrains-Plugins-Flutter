@@ -1,0 +1,3 @@
+# Код json_serializable лежит в git, чтобы проект собирался сразу после клона.
+# GitHub сворачивает такие файлы в PR.
+*.g.dart linguist-generated=true
